@@ -1,16 +1,14 @@
 <template>
     <div>
-        <h1>Witaj w systemie do zapisów na zajęcia</h1>
-
+        <h1>System do zapisów na zajęcia</h1>
         <div v-if="authenticatedUsername">
-            <user-panel :username="authenticatedUsername" @logout="logMeOut()"></user-panel>
-            <meetings-page></meetings-page>
+        	<user-panel :username="authenticatedUsername" @logout="logMeOut()"></user-panel>           
         </div>
 
-        <div v-else>
-            <login-form @login="logMeIn($event)"></login-form>
+        <div v-if="!authenticatedUsername">
+        	<login-form @login="logMeIn($event)"></login-form>
         </div>
-
+	<meetings-page v-show="authenticatedUsername" :authenticatedUsername="authenticatedUsername"></meetings-page>
     </div>
 </template>
 
@@ -19,7 +17,6 @@
     import LoginForm from "./LoginForm";
     import UserPanel from "./UserPanel";
     import MeetingsPage from "./meetings/MeetingsPage";
-
     export default {
         components: {LoginForm, MeetingsPage, UserPanel},
         data() {
